@@ -5,6 +5,7 @@ import type { TracePayload } from '@/const/trace';
 import { LobeRuntimeAI } from './BaseAI';
 import { LobeAnthropicAI } from './anthropic';
 import { LobeAzureOpenAI } from './azureOpenai';
+import { LobeBaichuanAI } from './baichuan';
 import { LobeBedrockAI, LobeBedrockAIParams } from './bedrock';
 import { LobeDeepSeekAI } from './deepseek';
 import { LobeGoogleAI } from './google';
@@ -16,6 +17,8 @@ import { LobeOllamaAI } from './ollama';
 import { LobeOpenAI } from './openai';
 import { LobeOpenRouterAI } from './openrouter';
 import { LobePerplexityAI } from './perplexity';
+import { LobeQwenAI } from './qwen';
+import { LobeStepfunAI } from './stepfun';
 import { LobeTogetherAI } from './togetherai';
 import {
   ChatCompetitionOptions,
@@ -101,6 +104,7 @@ class AgentRuntime {
     params: Partial<{
       anthropic: Partial<ClientOptions>;
       azure: { apiVersion?: string; apikey?: string; endpoint?: string };
+      baichuan: Partial<ClientOptions>;
       bedrock: Partial<LobeBedrockAIParams>;
       deepseek: Partial<ClientOptions>;
       google: { apiKey?: string; baseURL?: string };
@@ -112,6 +116,8 @@ class AgentRuntime {
       openai: Partial<ClientOptions>;
       openrouter: Partial<ClientOptions>;
       perplexity: Partial<ClientOptions>;
+      qwen: Partial<ClientOptions>;
+      stepfun: Partial<ClientOptions>;
       togetherai: Partial<ClientOptions>;
       zeroone: Partial<ClientOptions>;
       zhipu: Partial<ClientOptions>;
@@ -175,7 +181,7 @@ class AgentRuntime {
         runtimeModel = new LobeDeepSeekAI(params.deepseek ?? {});
         break;
       }
-      
+
       case ModelProvider.Minimax: {
         runtimeModel = new LobeMinimaxAI(params.minimax ?? {});
         break;
@@ -204,6 +210,21 @@ class AgentRuntime {
       case ModelProvider.ZeroOne: {
         runtimeModel = new LobeZeroOneAI(params.zeroone ?? {});
         break;
+      }
+
+      case ModelProvider.Qwen: {
+        runtimeModel = new LobeQwenAI(params.qwen ?? {});
+        break;
+      }
+
+      case ModelProvider.Stepfun: {
+        runtimeModel = new LobeStepfunAI(params.stepfun ?? {});
+        break;
+      }
+
+      case ModelProvider.Baichuan: {
+        runtimeModel = new LobeBaichuanAI(params.baichuan ?? {});
+        break
       }
     }
 
